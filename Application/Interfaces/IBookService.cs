@@ -11,6 +11,6 @@ namespace Application.Interfaces
     {
         List<Book> GetAllBooks();
 
-        public Book AddNewBook(string title, string description, string author, float price, int stock);
+        public Book AddNewBook(Book book);
     }
 }

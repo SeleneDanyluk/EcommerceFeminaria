@@ -25,7 +25,7 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult AddBook([FromBody] Book book)
         {
-            return Ok(_bookService.AddNewBook(book.Title, book.Description, book.Author, book.Price, book.Stock));
+            return Ok(_bookService.AddNewBook(book));
         }
     }
 }

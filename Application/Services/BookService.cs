@@ -23,20 +23,11 @@ namespace Application.Services
             return _bookRepository.GetAllBooks();
         }
 
-        public Book AddNewBook(string title, string description, string author, float price, int stock)
+        public Book AddNewBook(Book book )
         {
-            var newBook = new Book
-            {
-                Title = title,
-                Description = description,
-                Author = author,
-                Price = price,
-                Stock = stock
-            };
+            _bookRepository.AddBook(book);
 
-            _bookRepository.AddBook(newBook);
-
-            return(newBook);
+            return(book);
         }
 
     }
