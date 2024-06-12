@@ -17,20 +17,21 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 
-string connectionString = builder.Configuration["ConnectionStrings:DBConnectionString"]!;
+//string connectionString = builder.Configuration["ConnectionStrings:DBConnectionString"]!;
 
 // Configure the SQLite connection
-var connection = new SqliteConnection(connectionString);
-connection.Open();
+//var connection = new SqliteConnection(connectionString);
+//connection.Open();
 
 // Set journal mode to DELETE using PRAGMA statement
-using (var command = connection.CreateCommand())
-{
-    command.CommandText = "PRAGMA journal_mode = DELETE;";
-    command.ExecuteNonQuery();
-}
+//using (var command = connection.CreateCommand())
+//{
+//command.CommandText = "PRAGMA journal_mode = DELETE;";
+//command.ExecuteNonQuery();
+//}
 
-builder.Services.AddDbContext<ApplicationContext>(dbContextOptions => dbContextOptions.UseSqlite(connection));
+builder.Services.AddDbContext<ApplicationContext>(dbContextOptions => dbContextOptions.UseSqlite(
+    builder.Configuration["ConnectionStrings:DBConnectionString"],b => b.MigrationsAssembly("Web")));
 
 var app = builder.Build();
 
