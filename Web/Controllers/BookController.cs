@@ -1,4 +1,6 @@
-﻿using Application.Services;
+﻿using Application.Interfaces;
+using Application.Models.Requests;
+using Application.Services;
 using domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,21 +11,21 @@ namespace Web.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private readonly BookService _bookService;
+        private readonly IBookService _bookService;
 
-        public BookController(BookService bookService)
+        public BookController(IBookService bookService)
         {
             _bookService = bookService;
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks()
+        public IActionResult GetAll()
         {
             return Ok(_bookService.GetAllBooks());
         }
 
         [HttpPost]
-        public IActionResult AddBook([FromBody] Book book)
+        public IActionResult AddBook([FromBody] BookCreateRequest book)
         {
             return Ok(_bookService.AddNewBook(book));
         }

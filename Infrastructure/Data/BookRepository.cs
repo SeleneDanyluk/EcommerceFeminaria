@@ -9,10 +9,10 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.Data
 {
-    public class BookRepository : IBookRepository
+    public class BookRepository : BaseRepository<Book>, IBookRepository
     {
         private readonly ApplicationContext _context;
-        public BookRepository(ApplicationContext context) 
+        public BookRepository(ApplicationContext context) : base(context)
         {
             _context = context;
         }
@@ -20,16 +20,15 @@ namespace Infrastructure.Data
         //obtener todos los libros de la base de datos
         public List<Book> GetAllBooks()
         {
-            IQueryable<Book> query = _context.Books;
-
-            return query.ToList();
+            return _context.Books.ToList();
         }
 
         //agregar un nuevo libro
-        public void AddBook(Book newBook)
+        public Book AddBook(Book newBook)
         {
             _context.Books.Add(newBook);
             _context.SaveChanges();
+            return newBook;
         }
     }
 }

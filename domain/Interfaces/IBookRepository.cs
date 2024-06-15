@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IBookRepository 
+    public interface IBookRepository : IBaseRepository<Book>
     {
         List<Book> GetAllBooks();
 
-        void AddBook(Book newBook);
+        Book AddBook(Book newBook);
     }
 }

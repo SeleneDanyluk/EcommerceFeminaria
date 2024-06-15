@@ -17,7 +17,7 @@ namespace Application.Models
 
         public float Price { get; set; }
 
-        public static BookDto BookToDto(Book book)
+        public static BookDto ToDto(Book book)
         {
             BookDto bookDto = new();
             bookDto.Title = book.Title;

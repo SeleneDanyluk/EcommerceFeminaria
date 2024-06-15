@@ -1,4 +1,6 @@
 ﻿using Application.Interfaces;
+using Application.Models;
+using Application.Models.Requests;
 using domain.Entities;
 using Domain.Interfaces;
 using System;
@@ -20,14 +22,12 @@ namespace Application.Services
 
         public List<Book> GetAllBooks()
         {
-            return _bookRepository.GetAllBooks();
+            return _bookRepository.Get();
         }
 
-        public Book AddNewBook(Book book )
+        public BookDto AddNewBook(BookCreateRequest bookDto)
         {
-            _bookRepository.AddBook(book);
-
-            return(book);
+            return BookDto.ToDto(_bookRepository.AddBook(BookCreateRequest.ToEntity(bookDto)));
         }
 
     }

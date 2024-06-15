@@ -4,6 +4,7 @@ using Domain.Interfaces;
 using Infrastructure.Data;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,24 +15,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IBookService, BookService>();
-
-//string connectionString = builder.Configuration["ConnectionStrings:DBConnectionString"]!;
-
 // Configure the SQLite connection
-//var connection = new SqliteConnection(connectionString);
-//connection.Open();
+var connection = new SqliteConnection("Data Source=webFeminarria.db");
+connection.Open();
 
 // Set journal mode to DELETE using PRAGMA statement
-//using (var command = connection.CreateCommand())
-//{
-//command.CommandText = "PRAGMA journal_mode = DELETE;";
-//command.ExecuteNonQuery();
-//}
+using (var command = connection.CreateCommand())
+{
+    command.CommandText = "PRAGMA journal_mode = DELETE;";
+    command.ExecuteNonQuery();
+}
 
-builder.Services.AddDbContext<ApplicationContext>(dbContextOptions => dbContextOptions.UseSqlite(
-    builder.Configuration["ConnectionStrings:DBConnectionString"],b => b.MigrationsAssembly("Web")));
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(connection));
+
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
 
 var app = builder.Build();
 

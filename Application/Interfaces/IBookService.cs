@@ -1,4 +1,6 @@
-﻿using domain.Entities;
+﻿using Application.Models.Requests;
+using Application.Models;
+using domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,6 @@ namespace Application.Interfaces
     {
         List<Book> GetAllBooks();
 
-        public Book AddNewBook(Book book);
+        BookDto AddNewBook(BookCreateRequest bookDto);
     }
 }
