@@ -23,12 +23,7 @@ namespace Infrastructure.Data
             return _context.Books.ToList();
         }
 
-        //agregar un nuevo libro
-        public Book AddBook(Book newBook)
-        {
-            _context.Books.Add(newBook);
-            _context.SaveChanges();
-            return newBook;
-        }
+
+
     }
 }

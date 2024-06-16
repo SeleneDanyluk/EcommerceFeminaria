@@ -9,8 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IBookRepository : IBaseRepository<Book>
     {
-        List<Book> GetAllBooks();
+        public List<Book> GetAllBooks();
 
-        Book AddBook(Book newBook);
     }
 }

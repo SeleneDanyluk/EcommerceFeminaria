@@ -17,6 +17,8 @@ namespace Application.Models
 
         public float Price { get; set; }
 
+        public int Stock { get; set; }  
+
         public static BookDto ToDto(Book book)
         {
             BookDto bookDto = new();
@@ -24,6 +26,7 @@ namespace Application.Models
             bookDto.Description = book.Description;
             bookDto.Author = book.Author;
             bookDto.Price = book.Price;
+            bookDto.Stock = book.Stock; 
 
             return bookDto;
 

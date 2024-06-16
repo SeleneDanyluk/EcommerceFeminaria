@@ -27,7 +27,7 @@ namespace Application.Services
 
         public BookDto AddNewBook(BookCreateRequest bookDto)
         {
-            return BookDto.ToDto(_bookRepository.AddBook(BookCreateRequest.ToEntity(bookDto)));
+            return BookDto.ToDto(_bookRepository.Create(BookCreateRequest.ToEntity(bookDto)));
         }
 
     }

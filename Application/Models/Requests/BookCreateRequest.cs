@@ -26,6 +26,7 @@ namespace Application.Models.Requests
             book.Description = bookDto.Description;
             book.Author = bookDto.Author;
             book.Price = bookDto.Price;
+            book.Stock = bookDto.Stock; 
 
             return book;
           

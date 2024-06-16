@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,28 @@ namespace Infrastructure.Data
         public T? Get<Tid>(Tid id)
         {
             return _context.Set<T>().Find(new object[] {id});
+        }
+
+        //agregar un nuevo libro
+        public T Create(T entity)
+        {
+            _context.Set<T>().Add(entity);
+            _context.SaveChanges();
+            return entity;
+        }
+
+        public T Update(T entity)
+        {
+            _context.Set<T>().Update(entity);
+            _context.SaveChanges();
+            return entity;
+        }
+
+        public void Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
+            _context.SaveChanges();
+
         }
     }
 }
