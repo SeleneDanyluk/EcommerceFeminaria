@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Infrastructure.Data
@@ -17,13 +18,10 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        //obtener todos los libros de la base de datos
-        public List<Book> GetAllBooks()
+        public Book? GetByTittle(string tittle) 
         {
-            return _context.Books.ToList();
+            return _context.Books.FirstOrDefault(u => u.Title == tittle);
         }
-
-
 
     }
 }
