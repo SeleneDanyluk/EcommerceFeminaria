@@ -14,5 +14,13 @@ namespace Application.Interfaces
         List<Book> GetAllBooks();
 
         BookDto AddNewBook(BookCreateRequest bookDto);
+
+        public BookDto GetBookById(int id);
+
+        public BookDto GetBookByTittle(string tittle);
+
+        public void UpdateBook(BookCreateRequest bookDto);
+
+        public void DeleteBook(int id);
     }
 }
