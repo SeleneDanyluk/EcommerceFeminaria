@@ -35,6 +35,18 @@ namespace Application.Services
             return UserDto.ToDto(_userRepository.GetByEmail(email));
         }
 
+        public UserAuthenticationRequest GetUserToAuthenticate(string email)
+        {
+            UserDto entity = GetUserByEmail(email);
+
+            UserAuthenticationRequest entityToAuthenticate = new();
+            entityToAuthenticate.Email = entity.Email;
+            entityToAuthenticate.UserType = entity.UserType;
+            entityToAuthenticate.Password = entity.Password;
+
+            return entityToAuthenticate;
+        }
+
         public void UpdateUser(UserCreatedRequest userDto)
         {
             UserDto.ToDto(_userRepository.Update(UserCreatedRequest.ToEntity(userDto)));

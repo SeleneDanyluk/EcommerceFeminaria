@@ -2,11 +2,13 @@
 using Application.Models.Requests;
 using Application.Services;
 using domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
@@ -36,6 +38,7 @@ namespace Web.Controllers
             return Ok(_bookService.GetBookByTittle(tittle));
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult AddBook([FromBody] BookCreateRequest book)
         {
@@ -57,6 +60,7 @@ namespace Web.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete]
         public IActionResult DeleteBook([FromQuery]int id) 
         {
