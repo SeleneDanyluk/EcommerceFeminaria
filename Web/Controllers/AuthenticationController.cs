@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Models;
 using Application.Models.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace Web.Controllers
         {
             string token = _customAuthenticationService.Autenticar(loginRequest); //Lo primero que hacemos es llamar a una función que valide los parámetros que enviamos.
 
-            return Ok(token);
+            return Ok(new TokenResponse { Token = token });
         }
 
     }
