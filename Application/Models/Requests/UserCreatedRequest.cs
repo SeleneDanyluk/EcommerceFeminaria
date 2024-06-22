@@ -1,5 +1,4 @@
-﻿using domain.Entities;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Enum;
 using System;
 using System.Collections.Generic;
@@ -19,6 +18,7 @@ namespace Application.Models.Requests
 
         public UserType UserType { get; set; }
 
+
         public static User ToEntity(UserCreatedRequest userDto)
         {
             User user = new User();
@@ -26,8 +26,7 @@ namespace Application.Models.Requests
             user.Email = userDto.Email;
             user.Password = userDto.Password;
             user.UserType = userDto.UserType;
-            user.Purchase = new List<Cart>();
-
+     
             return user;
 
         }

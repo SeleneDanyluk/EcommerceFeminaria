@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface IBookRepository : IBaseRepository<Book>
+    public interface ICartRepository : IBaseRepository<Cart>
     {
-        public Book? GetByTittle(string tittle);
     }
 }

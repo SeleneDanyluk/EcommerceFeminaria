@@ -1,6 +1,6 @@
 ﻿using Application.Models.Requests;
 using Application.Models;
-using domain.Entities;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +19,10 @@ namespace Application.Interfaces
 
         public BookDto GetBookByTittle(string tittle);
 
-        public void UpdateBook(BookCreateRequest bookDto);
+        public BookDto UpdateBook(string title, float price);
 
         public void DeleteBook(int id);
+
+        public List<BookDto> GetBooksByTitle(List<string> titles);
     }
 }

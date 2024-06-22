@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Models;
 using Application.Models.Requests;
-using domain.Entities;
+using Domain.Entities;
 using Domain.Enum;
 using Domain.Interfaces;
 using Microsoft.Extensions.Options;

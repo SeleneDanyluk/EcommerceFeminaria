@@ -1,13 +1,13 @@
 ﻿using Application.Interfaces;
 using Application.Models.Requests;
 using Application.Models;
-using domain.Entities;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace Application.Services
 {
@@ -27,6 +27,7 @@ namespace Application.Services
 
         public UserDto AddNewUser(UserCreatedRequest userDto)
         {
+
             return UserDto.ToDto(_userRepository.Create(UserCreatedRequest.ToEntity(userDto)));
         }
 

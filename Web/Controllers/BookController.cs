@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
+using Application.Models;
 using Application.Models.Requests;
 using Application.Services;
-using domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +26,13 @@ namespace Web.Controllers
             return Ok(_bookService.GetAllBooks());
         }
 
+        [HttpPost("/librosDelCarrito")]
+
+        public IActionResult GetBooksByTitle([FromBody] List<string> books) 
+        {
+            return Ok(_bookService.GetBooksByTitle(books));
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute]int id)
         {
@@ -47,11 +54,11 @@ namespace Web.Controllers
 
         [HttpPut]
 
-        public IActionResult UpdateBook([FromBody] BookCreateRequest book)
+        public IActionResult UpdateBook([FromBody] string title, float price)
         {
             try
             {
-                _bookService.UpdateBook(book);
+                _bookService.UpdateBook(title, price);
                 return Ok(new { message = "Book updated successfully." });
             }
             catch (Exception ex)
