@@ -19,7 +19,7 @@ namespace Application.Interfaces
 
      
 
-        void UpdateUser(UserCreatedRequest userDto);
+        void UpdateUser(int id, string password);
 
         void DeleteUser(int id);
     }

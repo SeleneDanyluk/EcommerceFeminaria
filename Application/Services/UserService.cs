@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Exceptions;
 
 namespace Application.Services
 {
@@ -47,9 +48,14 @@ namespace Application.Services
             return entityToAuthenticate;
         }
 
-        public void UpdateUser(UserCreatedRequest userDto)
-        {
-            UserDto.ToDto(_userRepository.Update(UserCreatedRequest.ToEntity(userDto)));
+        public void UpdateUser(int id, string password)
+        {   
+            User? user = _userRepository.Get(id); //guardamos el usuario al que refiere el id
+            if (user == null){
+                throw new NotFoundException(nameof(User), id);
+            }
+            user.Password = password;
+            _userRepository.Update(user);
         }
 
         public void DeleteUser(int id)

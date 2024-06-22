@@ -35,17 +35,17 @@ namespace Web.Controllers
             return Ok(_userService.GetUserByEmail(email));
         }
 
-        [HttpPut]
-        public IActionResult UpdateUser([FromBody] UserCreatedRequest user)
+        [HttpPut("/password")]
+        public IActionResult UpdateUser([FromQuery] int id, string password)
         {
             try
             {
-                _userService.UpdateUser(user);
-                return Ok(new { message = "User updated successfully." });
+                _userService.UpdateUser(id, password);
+                return Ok(new { message = "Password updated successfully." });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "An error occurred while updating the user.", error = ex.Message });
+                return BadRequest(new { message = "An error occurred while updating the password.", error = ex.Message });
             }
         }
 
