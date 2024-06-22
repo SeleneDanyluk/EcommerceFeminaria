@@ -17,6 +17,8 @@ namespace Application.Interfaces
 
         UserDto GetUserByEmail(string email);
 
+     
+
         void UpdateUser(UserCreatedRequest userDto);
 
         void DeleteUser(int id);

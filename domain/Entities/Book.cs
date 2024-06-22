@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
 
 namespace domain.Entities
 {
@@ -25,5 +26,7 @@ namespace domain.Entities
         public int Stock {  get; set; }
 
         public string ImageUrl { get; set; }
+
+        public List<Cart> Carts { get; set; }
     }
 }
