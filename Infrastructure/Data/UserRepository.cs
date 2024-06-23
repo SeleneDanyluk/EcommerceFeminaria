@@ -1,4 +1,4 @@
-﻿using domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ namespace Infrastructure.Data
         {
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }
-
+        //hacer etoo para upate
     }
 
 }

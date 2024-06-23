@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace domain.Entities
+namespace Domain.Entities
 {
     public class User
     {
@@ -24,7 +24,7 @@ namespace domain.Entities
 
         public UserType UserType { get; set; }
 
-        public List<Cart> Purchase {  get; set; } 
+        public int CartId {  get; set; } 
 
     }
 }

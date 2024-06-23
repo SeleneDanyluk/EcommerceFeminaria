@@ -1,4 +1,4 @@
-﻿using domain.Entities;
+﻿using Domain.Entities;
 using Domain.Enum;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,9 @@ namespace Domain.Entities
 
         public float Total { get; set; }
 
-        public SaleState SaleState { get; set; }
+        public SaleState SaleState { get; set; } = SaleState.draft;
+
+        public int UserId { get; set; }
 
     }
 }

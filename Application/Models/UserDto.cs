@@ -1,5 +1,4 @@
-﻿using domain.Entities;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Enum;
 using System;
 using System.Collections.Generic;
@@ -20,7 +19,6 @@ namespace Application.Models
 
         public UserType UserType { get; set; }
 
-        public List<Cart> Purchase { get; set; }
 
         public static UserDto ToDto(User user)
         {
@@ -29,8 +27,7 @@ namespace Application.Models
             userDto.Email = user.Email;
             userDto.Password = user.Password;
             userDto.UserType = user.UserType;//Ver con roles super admin y client
-            userDto.Purchase = user.Purchase;
-
+      
             return userDto;
 
         }

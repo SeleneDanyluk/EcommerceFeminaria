@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Models;
 using Application.Models.Requests;
-using domain.Entities;
+using Domain.Entities;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -52,10 +52,33 @@ namespace Application.Services
         }
 
         //Modificar un libro
-        public void UpdateBook(BookCreateRequest bookDto)
+        public BookDto UpdateBook(string title, float price)
         {
-            BookDto.ToDto(_bookRepository.Update(BookCreateRequest.ToEntity(bookDto)));
+            var bookToUpdate = _bookRepository.GetByTittle(title);  
+
+           if (bookToUpdate != null)
+            {
+                bookToUpdate.Price = price;
+            }
+
+           return BookDto.ToDto(_bookRepository.Update(bookToUpdate));
         }
 
+        public List<BookDto> GetBooksByTitle(List<string> titles)
+        {
+            var list = new List<BookDto>();
+            foreach (var title in titles)
+            {
+                var libro = _bookRepository.GetByTittle(title);
+                if (libro == null)
+                {
+                    throw new Exception($"Libro no encontrado.");
+                }
+
+                list.Add(BookDto.ToDto(libro));
+
+            }
+            return list;
+        }
     }
 }

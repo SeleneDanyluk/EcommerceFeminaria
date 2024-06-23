@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
 
-namespace domain.Entities
+namespace Domain.Entities
 {
     public class Book
     {
@@ -27,6 +27,5 @@ namespace domain.Entities
 
         public string ImageUrl { get; set; }
 
-        public List<Cart> Carts { get; set; }
     }
 }
