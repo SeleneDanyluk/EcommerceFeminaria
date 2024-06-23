@@ -26,7 +26,14 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult AddUser([FromBody] UserCreatedRequest user)
         {
-            return Ok(_userService.AddNewUser(user));
+            try
+            {
+                return Ok(_userService.AddNewUser(user));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = "El email ya está registrado", error = ex.Message });
+            }
         }
 
         [HttpGet("/email")]

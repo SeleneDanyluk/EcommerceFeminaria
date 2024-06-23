@@ -29,7 +29,11 @@ namespace Application.Services
 
         public UserDto AddNewUser(UserCreatedRequest userDto)
         {
-
+            var existingUser = _userRepository.GetByEmail(userDto.Email);
+            if (existingUser != null)
+            {
+                throw new Exception("El email ya está registrado");
+            }
             return UserDto.ToDto(_userRepository.Create(UserCreatedRequest.ToEntity(userDto)));
         }
 

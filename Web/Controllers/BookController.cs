@@ -45,7 +45,6 @@ namespace Web.Controllers
             return Ok(_bookService.GetBookByTittle(tittle));
         }
 
-        [Authorize]
         [HttpPost]
         public IActionResult AddBook([FromBody] BookCreateRequest book)
         {
@@ -54,7 +53,7 @@ namespace Web.Controllers
 
         [HttpPut]
 
-        public IActionResult UpdateBook([FromBody] string title, float price)
+        public IActionResult UpdateBook([FromQuery] string title, float price)
         {
             try
             {
@@ -67,7 +66,6 @@ namespace Web.Controllers
             }
         }
 
-        [Authorize]
         [HttpDelete]
         public IActionResult DeleteBook([FromQuery]int id) 
         {
