@@ -1,9 +1,11 @@
 ﻿using Application.Interfaces;
 using Application.Models.Requests;
 using Application.Services;
+using Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Domain.Exceptions.NotAllowedExceptions;
 
 namespace Web.Controllers
 {
@@ -28,11 +30,23 @@ namespace Web.Controllers
         {
             try
             {
-                return Ok(_userService.AddNewUser(user));
+                var newUser = _userService.AddNewUser(user);
+                return Ok(newUser);
+            }
+            catch (NotAllowedException ex)
+            {
+                if (ex.Message.Contains("Email existente"))
+                {
+                    return BadRequest(new { message = "El email ya está registrado. Por favor, intente con otro." });
+                }
+                else
+                {
+                    return BadRequest(new { message = "Error interno del servidor. Intente nuevamente" });
+                }
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "El email ya está registrado", error = ex.Message });
+                return StatusCode(500, new { message = "Error interno del servidor" });
             }
         }
 

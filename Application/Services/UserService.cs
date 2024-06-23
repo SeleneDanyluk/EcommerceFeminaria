@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Exceptions;
+using static Domain.Exceptions.NotAllowedExceptions;
 
 
 namespace Application.Services
@@ -32,7 +33,7 @@ namespace Application.Services
             var existingUser = _userRepository.GetByEmail(userDto.Email);
             if (existingUser != null)
             {
-                throw new Exception("El email ya está registrado");
+                throw new NotAllowedException("Email existente. Por favor intente nuevamente");
             }
             return UserDto.ToDto(_userRepository.Create(UserCreatedRequest.ToEntity(userDto)));
         }

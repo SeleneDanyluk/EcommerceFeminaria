@@ -45,20 +45,25 @@ namespace Infrastructure.Services
 
                 return null;
             }
-             private UserAuthenticationRequest GetUserToAuthenticate(string email)
+             private UserAuthenticationRequest GetUserToAuthenticate(string email, string password)
               {
                      User entity = _userRepository.GetByEmail(email);
+
+                if (entity == null)
+                 {
+                    throw new NotAllowedException("User authentication failed");
+                 }
 
                         UserAuthenticationRequest entityToAuthenticate = new();
                         entityToAuthenticate.Email = entity.Email;
                         entityToAuthenticate.UserType = entity.UserType;
-                        entityToAuthenticate.Password = entity.Password;
+                        entityToAuthenticate.Password = password;
 
                         return entityToAuthenticate;
              }
         public string Autenticar(UserLoginRequest loginRequest)
             {
-            UserAuthenticationRequest authenticationRequest = GetUserToAuthenticate(loginRequest.Email);
+            UserAuthenticationRequest authenticationRequest = GetUserToAuthenticate(loginRequest.Email, loginRequest.Password);
               
                 //Paso 1: Validamos las credenciales
                 var user = ValidateUser(authenticationRequest); //Lo primero que hacemos es llamar a una función que valide los parámetros que enviamos.
