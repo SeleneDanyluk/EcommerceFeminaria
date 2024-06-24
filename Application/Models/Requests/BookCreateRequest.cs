@@ -19,6 +19,8 @@ namespace Application.Models.Requests
 
         public int Stock {  get; set; }
 
+        public string ImageUrl { get; set; }
+
         public static Book ToEntity(BookCreateRequest bookDto)
         {
             Book book = new Book();
@@ -26,7 +28,8 @@ namespace Application.Models.Requests
             book.Description = bookDto.Description;
             book.Author = bookDto.Author;
             book.Price = bookDto.Price;
-            book.Stock = bookDto.Stock; 
+            book.Stock = bookDto.Stock;
+            book.ImageUrl = bookDto.ImageUrl;
 
             return book;
           
