@@ -10,7 +10,7 @@ namespace Domain.Interfaces
     public interface ICartRepository : IBaseRepository<Cart>
     {
 
-        public User? GetCartByUserId(int userId);
+        public Cart? GetCartByUserId(int userId);
 
         public Cart AddBookToUserCart(User user, Book book);
     }

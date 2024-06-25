@@ -18,9 +18,9 @@ namespace Infrastructure.Data
             _context = context;
         }
 
-        public User? GetCartByUserId(int userId)
+        public Cart? GetCartByUserId(int userId)
         {
-            User u = _context.Users.Include(c => c.Carts).FirstOrDefault(u => u.Id == userId);
+            Cart u = _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == userId);
           
             return u; //retorna el usuario con su primer carrito 
         }
@@ -28,7 +28,8 @@ namespace Infrastructure.Data
         public Cart AddBookToUserCart(User user, Book book)
         {
 
-            _context.Users.Include(c => c.Carts).FirstOrDefault(u => u.Id == user.Id).Carts.FirstOrDefault().Books.Add(book);
+            var cart = _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id);
+            cart.Books.Add(book);
             _context.SaveChangesAsync();
 
             return _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id);

@@ -13,7 +13,7 @@ namespace Application.Interfaces
     {
         public List<Cart> GetCarts();
 
-        public UserDto GetCartByUserId(int UserId);
+        public CartDto GetCartByUserId(int UserId);
 
         public CartDto AddBookToCart(int userId, int bookId);
     }

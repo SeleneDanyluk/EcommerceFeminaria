@@ -32,7 +32,7 @@ namespace Application.Services
 
       
 
-       public UserDto GetCartByUserId(int UserId)
+       public CartDto GetCartByUserId(int UserId)
         {
             User u = _userRepository.Get(UserId);
 
@@ -41,7 +41,7 @@ namespace Application.Services
                 throw new Exception($"User incorrecto.");
             }
 
-            return (UserDto.ToDto(_cartRepository.GetCartByUserId(UserId)));
+            return (CartDto.ToDto(_cartRepository.GetCartByUserId(UserId)));
         }
 
         public CartDto AddBookToCart(int userId, int bookId)
