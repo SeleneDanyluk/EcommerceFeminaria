@@ -16,11 +16,11 @@ namespace Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public List<Book> Books { get; set; }
-
         public float Total { get; set; }
 
         public SaleState SaleState { get; set; } = SaleState.draft;
+
+        public ICollection<Book> Books { get; set; } = new List<Book>();
 
         public int UserId { get; set; }
 

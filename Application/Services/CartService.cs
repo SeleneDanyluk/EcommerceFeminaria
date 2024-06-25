@@ -16,13 +16,13 @@ namespace Application.Services
     {
         private readonly ICartRepository _cartRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IBookService _bookService;
+        private readonly IBookRepository _bookRepository;
 
-        public CartService(ICartRepository cartRepository, IUserRepository userRepository, IBookService bookService)
+        public CartService(ICartRepository cartRepository, IUserRepository userRepository, IBookRepository bookRepository)
         {
             _cartRepository = cartRepository;
             _userRepository = userRepository;
-            _bookService = bookService;
+            _bookRepository = bookRepository;
         }
 
         public List<Cart> GetCarts()
@@ -30,31 +30,27 @@ namespace Application.Services
             return _cartRepository.Get();
         }
 
-        public Cart CreateCart(int UserId, List<string> booksTitle)
-        {
-            float total = 0;
-          
-            foreach (var book in booksTitle)
-            {
-                var libroExistente = _bookService.GetBookByTittle(book);
-                if (libroExistente == null)
-                {
-                    throw new Exception($"Libro no encontrado.");
-                }
+      
 
-                total += libroExistente.Price;
-                
+       public UserDto GetCartByUserId(int UserId)
+        {
+            User u = _userRepository.Get(UserId);
+
+            if (u == null)
+            {
+                throw new Exception($"User incorrecto.");
             }
 
-            Cart cart = new Cart(); 
-            cart.Total = total;
-            cart.SaleState = SaleState.draft;
-            cart.UserId = UserId;
-
-            return _cartRepository.Create(cart);
-           
+            return (UserDto.ToDto(_cartRepository.GetCartByUserId(UserId)));
         }
 
-       
+        public CartDto AddBookToCart(int userId, int bookId)
+        {
+            User u = _userRepository.Get(userId);
+
+            Book b = _bookRepository.Get(bookId);
+
+            return (CartDto.ToDto(_cartRepository.AddBookToUserCart(u, b)));
+        }
     }
 }

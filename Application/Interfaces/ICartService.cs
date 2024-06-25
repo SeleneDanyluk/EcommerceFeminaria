@@ -1,4 +1,5 @@
-﻿using Application.Models.Requests;
+﻿using Application.Models;
+using Application.Models.Requests;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace Application.Interfaces
     {
         public List<Cart> GetCarts();
 
-        public Cart CreateCart(int UserId, List<string> booksTitle);
+        public UserDto GetCartByUserId(int UserId);
+
+        public CartDto AddBookToCart(int userId, int bookId);
     }
 }

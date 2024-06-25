@@ -27,5 +27,7 @@ namespace Domain.Entities
 
         public string ImageUrl { get; set; }
 
+        public ICollection<Cart> Carts { get; set; } = new List<Cart>();
+
     }
 }

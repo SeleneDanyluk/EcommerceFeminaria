@@ -19,7 +19,7 @@ namespace Application.Models
 
         public UserType UserType { get; set; }
 
-
+        public ICollection<Cart> Carts { get; set; } = new List<Cart>();
         public static UserDto ToDto(User user)
         {
             UserDto userDto = new();
@@ -27,6 +27,7 @@ namespace Application.Models
             userDto.Email = user.Email;
             userDto.Password = user.Password;
             userDto.UserType = user.UserType;//Ver con roles super admin y client
+            userDto.Carts = user.Carts;
       
             return userDto;
 
