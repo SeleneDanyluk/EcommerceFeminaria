@@ -17,8 +17,6 @@ namespace Application.Models.Requests
         public string Password { get; set; }
 
         public UserType UserType { get; set; }
-
-
         public static User ToEntity(UserCreatedRequest userDto)
         {
             User user = new User();
@@ -26,6 +24,8 @@ namespace Application.Models.Requests
             user.Email = userDto.Email;
             user.Password = userDto.Password;
             user.UserType = userDto.UserType;
+            Cart cart = new Cart();
+            user.Carts.Add(cart);
      
             return user;
 

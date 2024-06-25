@@ -69,5 +69,7 @@ namespace Application.Services
         {
             _userRepository.Delete(_userRepository.Get(id));
         }
+
+
     }
 }

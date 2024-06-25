@@ -24,7 +24,7 @@ namespace Domain.Entities
 
         public UserType UserType { get; set; }
 
-        public int CartId {  get; set; } 
+        public ICollection<Cart> Carts {  get; set; } = new List<Cart>();
 
     }
 }

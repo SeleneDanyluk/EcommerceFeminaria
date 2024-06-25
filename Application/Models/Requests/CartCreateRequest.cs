@@ -16,14 +16,11 @@ namespace Application.Models.Requests
 
         public SaleState SaleState { get; set; }
 
-        public int IdUser { get; set; }
-
         public static Cart ToEntity(CartCreateRequest cartDto)
         {
            Cart cart = new Cart();
             cart.Total = cartDto.Total;
             cart.SaleState = cartDto.SaleState;
-            cart.UserId = cartDto.IdUser;
             cart.Books = cartDto.Books;
 
             return cart;

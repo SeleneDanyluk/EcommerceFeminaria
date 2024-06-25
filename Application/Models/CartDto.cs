@@ -10,25 +10,22 @@ namespace Application.Models
 {
     public class CartDto
     {
-        public List<Book> Books { get; set; }
-
         public float Total { get; set; }
 
-        public SaleState SaleState { get; set; }
+        public SaleState SaleState { get; set; } = SaleState.draft;
 
-        public int UserId { get; set; }
-
-        public List<BookDto> BooksList { get; set; }
+        public ICollection<Book> Books { get; set; } = new List<Book>();
 
         public static CartDto ToDto(Cart cart)
         {
-            CartDto cartDto = new();
-            cartDto.Books = cart.Books;
-            cartDto.SaleState = cart.SaleState;
-            cartDto.Total = cart.Total;
+            CartDto dto = new CartDto();
+            dto.Total = cart.Total;
+            dto.SaleState = cart.SaleState;
+            dto.Books = cart.Books;
 
-            return cartDto;
+            return dto;
 
         }
+
     }
 }

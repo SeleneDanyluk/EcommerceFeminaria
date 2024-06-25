@@ -24,11 +24,17 @@ namespace Web.Controllers
             return Ok(_cartService.GetCarts());
         }
 
-        [HttpPost]
-
-        public IActionResult CreeateCart(int UserId, List<string> booksTitle) 
-        {  
-            return Ok(_cartService.CreateCart(UserId, booksTitle));
+        [HttpGet("/{userId}/my-cart")]
+        public IActionResult GetCartByUserId(int userId) 
+        {
+            return Ok(_cartService.GetCartByUserId(userId));
         }
+
+        [HttpPost("/{userId}/addItem")]
+        public IActionResult AddBookToCart([FromRoute]int userId, [FromQuery] int bookId)
+        {
+            return Ok(_cartService.AddBookToCart(userId,bookId));
+        }
+       
     }
 }
