@@ -18,23 +18,67 @@ namespace Infrastructure.Data
             _context = context;
         }
 
+        public Cart ChangeCartState(User user)
+        {
+            Cart c = _context.Carts.FirstOrDefault(u => u.UserId == user.Id && u.SaleState == Domain.Enum.SaleState.draft);
+            if (c != null)
+            {
+                c.SaleState = Domain.Enum.SaleState.confirmed;
+  
+            }
+            _context.Users.FirstOrDefault(u => u.Id == user.Id).Carts.Add(new Cart());
+            _context.SaveChanges();
+
+            return _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id && u.SaleState == Domain.Enum.SaleState.draft);
+        }
+
         public Cart? GetCartByUserId(int userId)
         {
-            Cart u = _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == userId);
+            Cart u = _context.Carts
+                .Include(b => b.Books)
+                .FirstOrDefault(u => u.UserId == userId && u.SaleState == Domain.Enum.SaleState.draft);
+
           
-            return u; //retorna el usuario con su primer carrito 
+            return u;  
         }
 
         public Cart AddBookToUserCart(User user, Book book)
         {
 
-            var cart = _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id);
+            var cart = _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id && u.SaleState == Domain.Enum.SaleState.draft);
             cart.Books.Add(book);
+            if (cart != null)
+            {
+                cart.Total += book.Price;
+            }
             _context.SaveChangesAsync();
 
-            return _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id);
+            return _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id && u.SaleState == Domain.Enum.SaleState.draft);
 
         }
 
+        public Cart RemoveBookFromUserCart(User user, Book book)
+        {
+
+            var cart = _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id && u.SaleState == Domain.Enum.SaleState.draft);
+            cart.Books.Remove(book);
+            if (cart != null)
+            {
+                cart.Total -= book.Price;
+            }
+            _context.SaveChangesAsync();
+
+            return _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id && u.SaleState == Domain.Enum.SaleState.draft);
+
+        }
+
+        public List<Cart> GetClientPurchases(User user)
+        {
+            var carts = _context.Carts
+                .Where(u => u.UserId == user.Id && u.SaleState == Domain.Enum.SaleState.confirmed)
+                .Include(b => b.Books)
+                .ToList();
+            return carts;
+        }
     }
 }

@@ -16,5 +16,11 @@ namespace Application.Interfaces
         public CartDto GetCartByUserId(int UserId);
 
         public CartDto AddBookToCart(int userId, int bookId);
+
+        public CartDto ChangeCartState(int userId);
+
+        public List<Cart> GetClientPurchases(int userId);
+
+        public CartDto RemoveBookFromCart(int userId, int bookId);
     }
 }
