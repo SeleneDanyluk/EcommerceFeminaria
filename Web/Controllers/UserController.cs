@@ -26,7 +26,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddUser([FromBody] UserCreatedRequest user)
+        public IActionResult AddUser([FromBody] UserCreateRequest user)
         {
             try
             {

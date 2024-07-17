@@ -13,7 +13,7 @@ namespace Application.Interfaces
     {
        List<User> GetAllUsers();
 
-        UserDto AddNewUser(UserCreatedRequest userDto);
+        UserDto AddNewUser(UserCreateRequest userDto);
 
         UserDto GetUserByEmail(string email);
 

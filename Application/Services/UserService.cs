@@ -28,14 +28,14 @@ namespace Application.Services
             return _userRepository.Get();
         }
 
-        public UserDto AddNewUser(UserCreatedRequest userDto)
+        public UserDto AddNewUser(UserCreateRequest userDto)
         {
             var existingUser = _userRepository.GetByEmail(userDto.Email);
             if (existingUser != null)
             {
                 throw new NotAllowedException("Email existente. Por favor intente nuevamente");
             }
-            return UserDto.ToDto(_userRepository.Create(UserCreatedRequest.ToEntity(userDto)));
+            return UserDto.ToDto(_userRepository.Create(UserCreateRequest.ToEntity(userDto)));
         }
 
         public UserDto GetUserByEmail(string email)

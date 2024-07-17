@@ -9,7 +9,6 @@ namespace Domain.Enum
     public enum SaleState
     {
         draft,
-        pending_confirmation,
         confirmed
     }
 }

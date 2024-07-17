@@ -21,7 +21,6 @@ namespace Infrastructure.Data
         {
             return _context.Users.FirstOrDefault(u => u.Email == email);
         }
-        //hacer etoo para upate
     }
 
 }

@@ -25,9 +25,15 @@ namespace Web.Controllers
         }
 
         [HttpGet("/{userId}/my-cart")]
-        public IActionResult GetCartByUserId(int userId) 
+        public IActionResult GetCartByUserId([FromRoute]int userId) 
         {
             return Ok(_cartService.GetCartByUserId(userId));
+        }
+
+        [HttpGet("/{userId}/myPurchases")]
+        public IActionResult GetClientPurchases([FromRoute]int userId)
+        {
+            return Ok(_cartService.GetClientPurchases(userId));
         }
 
         [HttpPost("/{userId}/addItem")]
@@ -35,6 +41,17 @@ namespace Web.Controllers
         {
             return Ok(_cartService.AddBookToCart(userId,bookId));
         }
-       
+
+        [HttpDelete("/{userId}/removeItem")]
+        public IActionResult RemoveBookFromCart([FromRoute] int userId, [FromQuery] int bookId)
+        {
+            return Ok(_cartService.RemoveBookFromCart(userId, bookId));
+        }
+
+        [HttpPut("/{userId}/purchase")]
+        public IActionResult CreatePurchase([FromRoute]int userId)
+        {
+            return Ok(_cartService.ChangeCartState(userId));
+        }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Models.Requests
 {
-    public class UserCreatedRequest
+    public class UserCreateRequest
     {
         public string Name { get; set; }
 
@@ -17,7 +17,7 @@ namespace Application.Models.Requests
         public string Password { get; set; }
 
         public UserType UserType { get; set; }
-        public static User ToEntity(UserCreatedRequest userDto)
+        public static User ToEntity(UserCreateRequest userDto)
         {
             User user = new User();
             user.Name = userDto.Name;

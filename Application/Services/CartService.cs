@@ -52,5 +52,29 @@ namespace Application.Services
 
             return (CartDto.ToDto(_cartRepository.AddBookToUserCart(u, b)));
         }
+
+        public CartDto RemoveBookFromCart(int userId, int bookId)
+        {
+            User u = _userRepository.Get(userId);
+
+            Book b = _bookRepository.Get(bookId);
+
+            return (CartDto.ToDto(_cartRepository.RemoveBookFromUserCart(u,b)));
+        }
+
+        public CartDto ChangeCartState(int userId)
+        {
+            User u = _userRepository.Get(userId);
+            
+            return (CartDto.ToDto(_cartRepository.ChangeCartState(u)));
+        }
+
+        public List<Cart> GetClientPurchases(int userId)
+        {
+            User u = _userRepository.Get(userId);
+            
+
+            return _cartRepository.GetClientPurchases(u).ToList();
+        }
     }
 }
