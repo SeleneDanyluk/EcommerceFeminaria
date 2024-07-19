@@ -5,6 +5,9 @@ using Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Linq;
+using Domain.Entities;
 
 namespace Web.Controllers
 {
@@ -20,10 +23,19 @@ namespace Web.Controllers
             _bookService = bookService;
         }
 
+        
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] string? titulo = null, [FromQuery] string? autor = null)
         {
-            return Ok(_bookService.GetAllBooks());
+
+            var books = _bookService.GetAllBooks(titulo, autor);
+
+            if (books == null || !books.Any())
+            {
+                return NotFound(new { message = "No se encontraron libros con los criterios especificados." });
+            }
+
+            return Ok(books);
         }
 
         [HttpPost("/librosDelCarrito")]
@@ -48,35 +60,59 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult AddBook([FromBody] BookCreateRequest book)
         {
-            return Ok(_bookService.AddNewBook(book));
+            var userTypeString = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            if (userTypeString == "admin")
+            {
+                return Ok(_bookService.AddNewBook(book));
+            }
+            else
+            {
+                return Forbid();
+            }
         }
 
         [HttpPut]
 
         public IActionResult UpdateBook([FromQuery] string title, float price)
         {
-            try
+            var userTypeString = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            if (userTypeString == "admin")
             {
-                _bookService.UpdateBook(title, price);
-                return Ok(new { message = "Book updated successfully." });
+                try
+                {
+                    _bookService.UpdateBook(title, price);
+                    return Ok(new { message = "Book updated successfully." });
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { message = "An error occurred while updating the book.", error = ex.Message });
+                }
             }
-            catch (Exception ex)
+            else
             {
-              return BadRequest(new { message = "An error occurred while updating the book.", error = ex.Message });
+                return Forbid();
             }
         }
 
         [HttpDelete]
         public IActionResult DeleteBook([FromQuery]int id) 
         {
-            try
-            {
-                _bookService.DeleteBook(id);
-                return Ok(new { message = "Book deleted successfully." });
+            var userTypeString = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            if (userTypeString == "admin")
+            { 
+                try
+                {
+                    _bookService.DeleteBook(id);
+                    return Ok(new { message = "Book deleted successfully." });
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { message = "An error occurred while deleting the book.", error = ex.Message });
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest(new { message = "An error occurred while deleting the book.", error = ex.Message });
+                return Forbid();
             }
 
         }

@@ -11,7 +11,7 @@ namespace Application.Interfaces
 {
     public interface IBookService
     {
-        List<Book> GetAllBooks();
+        List<Book> GetAllBooks(string? titulo = null, string? autor = null);
 
         BookDto AddNewBook(BookCreateRequest bookDto);
 

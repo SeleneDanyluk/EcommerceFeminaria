@@ -21,9 +21,21 @@ namespace Application.Services
         }
 
         //Obtener todos los libros
-        public List<Book> GetAllBooks()
+        public List<Book> GetAllBooks(string? titulo = null, string? autor = null)
         {
-            return _bookRepository.Get();
+            var books = _bookRepository.Get();
+
+            if (!string.IsNullOrWhiteSpace(titulo))
+            {
+                books = books.Where(b => b.Title.Contains(titulo, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(autor))
+            {
+                books = books.Where(b => b.Author.Contains(autor, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            return books;
         }
 
         //Agregar un nuevo libro
