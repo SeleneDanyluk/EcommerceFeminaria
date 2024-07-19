@@ -78,15 +78,8 @@ namespace Web.Controllers
             var userTypeString = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
             if (userTypeString == "admin")
             {
-                try
-                {
-                    _bookService.UpdateBook(title, price);
-                    return Ok(new { message = "Book updated successfully." });
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(new { message = "An error occurred while updating the book.", error = ex.Message });
-                }
+                _bookService.UpdateBook(title, price);
+                return Ok(new { message = "Book updated successfully." });
             }
             else
             {
@@ -100,15 +93,8 @@ namespace Web.Controllers
             var userTypeString = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
             if (userTypeString == "admin")
             { 
-                try
-                {
-                    _bookService.DeleteBook(id);
-                    return Ok(new { message = "Book deleted successfully." });
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(new { message = "An error occurred while deleting the book.", error = ex.Message });
-                }
+                _bookService.DeleteBook(id);
+                return Ok(new { message = "Book deleted successfully." });
             }
             else
             {
