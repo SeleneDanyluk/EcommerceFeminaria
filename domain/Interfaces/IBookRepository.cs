@@ -12,5 +12,7 @@ namespace Domain.Interfaces
         public Book? GetByTittle(string tittle);
 
         public List<Book> GetAllBooks(string? titulo = null, string? autor = null);
+
+        public Book RemoveBookStock(Book book);
     }
 }

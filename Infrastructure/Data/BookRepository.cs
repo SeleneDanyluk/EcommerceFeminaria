@@ -23,6 +23,19 @@ namespace Infrastructure.Data
         {
             return _context.Books.FirstOrDefault(u => u.Title == tittle);
         }
+
+        public Book RemoveBookStock(Book book)
+        {
+            var c = _context.Books.FirstOrDefault(b => b.Id == book.Id);
+            if (c != null)
+            {
+                c.Stock = 0;
+            }
+            _context.SaveChangesAsync();
+
+            return c;
+        }
+
         public List<Book> GetAllBooks(string? titulo = null, string? autor = null)
         {
             if (!string.IsNullOrWhiteSpace(titulo))

@@ -87,6 +87,22 @@ namespace Web.Controllers
             }
         }
 
+        [HttpPatch]
+
+        public IActionResult RemoveBookStock([FromQuery] int id)
+        {
+            var userTypeString = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            if (userTypeString == "admin")
+            {
+                _bookService.RemoveBookStock(id);
+                return Ok(new { message = "Book Removed from sale." });
+            }
+            else
+            {
+                return Forbid();
+            }
+        }
+
         [HttpDelete]
         public IActionResult DeleteBook([FromQuery]int id) 
         {

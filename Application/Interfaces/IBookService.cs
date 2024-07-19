@@ -19,6 +19,8 @@ namespace Application.Interfaces
 
         public BookDto GetBookByTittle(string tittle);
 
+        public BookDto RemoveBookStock(int bookId);
+
         public BookDto UpdateBook(string title, float price);
 
         public void DeleteBook(int id);

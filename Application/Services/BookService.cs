@@ -80,5 +80,12 @@ namespace Application.Services
             }
             return list;
         }
+
+        public BookDto RemoveBookStock(int bookId)
+        {
+            Book book = _bookRepository.Get(bookId);
+
+            return (BookDto.ToDto(_bookRepository.RemoveBookStock(book)));
+        }
     }
 }
