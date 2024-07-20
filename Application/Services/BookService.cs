@@ -2,12 +2,14 @@
 using Application.Models;
 using Application.Models.Requests;
 using Domain.Entities;
+using Domain.Exceptions;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Domain.Exceptions.NotAllowedExceptions;
 
 namespace Application.Services
 {
@@ -29,20 +31,39 @@ namespace Application.Services
         //Agregar un nuevo libro
         public BookDto AddNewBook(BookCreateRequest bookDto)
         {
-            return BookDto.ToDto(_bookRepository.Create(BookCreateRequest.ToEntity(bookDto)));
+            var existingBook = _bookRepository.GetByTittle(bookDto.Title);
+            if (existingBook != null)
+            {
+                throw new NotAllowedException("El titulo ya se encuentra en el sistema.");
+            }
+
+            var newBook = _bookRepository.Create(BookCreateRequest.ToEntity(bookDto));
+
+            return BookDto.ToDto(newBook);
         }
 
         //Obtener un libro por Id
         public BookDto GetBookById(int id)
         {
+            var book = _bookRepository.Get(id);
+            if (book == null)
+            {
+                throw new NotFoundException(nameof(Book), id);
+            }
 
-            return BookDto.ToDto(_bookRepository.Get(id));
+            return BookDto.ToDto(book);
         }
 
         //Eliminar un libro por id
         public void DeleteBook(int id)
         {
-            _bookRepository.Delete(_bookRepository.Get(id));
+            var book = _bookRepository.Get(id);
+            if (book == null)
+            {
+                throw new NotFoundException(nameof(Book), id);
+            }
+
+            _bookRepository.Delete(book);
         }
 
         //Obtener un libro por título
