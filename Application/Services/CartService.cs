@@ -3,6 +3,7 @@ using Application.Models;
 using Application.Models.Requests;
 using Domain.Entities;
 using Domain.Enum;
+using Domain.Exceptions;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -30,51 +31,76 @@ namespace Application.Services
             return _cartRepository.Get();
         }
 
-      
-
-       public CartDto GetCartByUserId(int UserId)
+       public CartDto GetCartByUserId(int userId)
         {
-            User u = _userRepository.Get(UserId);
+            User user = _userRepository.Get(userId);
 
-            if (u == null)
+            if (user == null)
             {
-                throw new Exception($"User incorrecto.");
+                throw new NotFoundException(nameof(User), userId);
             }
-
-            return (CartDto.ToDto(_cartRepository.GetCartByUserId(UserId)));
+            return (CartDto.ToDto(_cartRepository.GetCartByUserId(userId)));
         }
 
         public CartDto AddBookToCart(int userId, int bookId)
         {
-            User u = _userRepository.Get(userId);
+            User user = _userRepository.Get(userId);
+             if (user == null)
+            {
+                throw new NotFoundException(nameof(User), userId);
+            }
 
-            Book b = _bookRepository.Get(bookId);
+            Book book = _bookRepository.Get(bookId);
 
-            return (CartDto.ToDto(_cartRepository.AddBookToUserCart(u, b)));
+            if (book == null)
+            {
+                throw new NotFoundException(nameof(Book), bookId);
+            }
+
+            return (CartDto.ToDto(_cartRepository.AddBookToUserCart(user, book)));
         }
 
         public CartDto RemoveBookFromCart(int userId, int bookId)
         {
-            User u = _userRepository.Get(userId);
+            User user = _userRepository.Get(userId);
 
-            Book b = _bookRepository.Get(bookId);
+            if (user == null)
+            {
+                throw new NotFoundException(nameof(User), userId);
+            }
 
-            return (CartDto.ToDto(_cartRepository.RemoveBookFromUserCart(u,b)));
+            Book book = _bookRepository.Get(bookId);
+
+            if (book == null)
+            {
+                throw new NotFoundException(nameof(Book), bookId);
+            }
+
+            return (CartDto.ToDto(_cartRepository.RemoveBookFromUserCart(user,book)));
         }
 
         public CartDto ChangeCartState(int userId)
         {
-            User u = _userRepository.Get(userId);
-            
-            return (CartDto.ToDto(_cartRepository.ChangeCartState(u)));
+            User user = _userRepository.Get(userId);
+
+            if (user == null)
+            {
+                throw new NotFoundException(nameof(User), userId);
+            }
+
+            return (CartDto.ToDto(_cartRepository.ChangeCartState(user)));
         }
 
         public List<Cart> GetClientPurchases(int userId)
         {
-            User u = _userRepository.Get(userId);
-            
+            User user = _userRepository.Get(userId);
 
-            return _cartRepository.GetClientPurchases(u).ToList();
+            if (user == null)
+            {
+                throw new NotFoundException(nameof(User), userId);
+            }
+
+            return _cartRepository.GetClientPurchases(user).ToList();
         }
     }
 }

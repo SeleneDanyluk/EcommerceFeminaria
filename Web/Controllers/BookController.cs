@@ -26,12 +26,12 @@ namespace Web.Controllers
             return Ok(_bookService.GetAllBooks());
         }
 
-        [HttpPost("/librosDelCarrito")]
+        //[HttpPost("/librosDelCarrito")]
 
-        public IActionResult GetBooksByTitle([FromBody] List<string> books) 
-        {
-            return Ok(_bookService.GetBooksByTitle(books));
-        }
+        //public IActionResult GetBooksByTitle([FromBody] List<string> books) 
+        //{
+        //    return Ok(_bookService.GetBooksByTitle(books));
+        //}
 
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute]int id)

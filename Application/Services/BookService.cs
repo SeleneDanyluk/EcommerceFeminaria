@@ -28,7 +28,7 @@ namespace Application.Services
             return _bookRepository.Get();
         }
 
-        //Agregar un nuevo libro
+        //Agregar un nuevo libro, quien puede?
         public BookDto AddNewBook(BookCreateRequest bookDto)
         {
             var existingBook = _bookRepository.GetByTittle(bookDto.Title);
@@ -73,33 +73,38 @@ namespace Application.Services
         }
 
         //Modificar un libro
-        public BookDto UpdateBook(string title, float price)
+        public BookDto UpdateBook(string title, float price) //aca buscabamos x titulo x el tp del front, lo hacemos x id?
         {
             var bookToUpdate = _bookRepository.GetByTittle(title);  
 
-           if (bookToUpdate != null)
+            if (bookToUpdate == null)
+            {
+                throw new NotFoundException(nameof(Book), title);
+            }
+
+            if (bookToUpdate != null)
             {
                 bookToUpdate.Price = price;
             }
 
-           return BookDto.ToDto(_bookRepository.Update(bookToUpdate));
+           return BookDto.ToDto(_bookRepository.Update(bookToUpdate)); //devolvemos la entidad actualizada o la hacemos void? como en user
         }
 
-        public List<BookDto> GetBooksByTitle(List<string> titles)
-        {
-            var list = new List<BookDto>();
-            foreach (var title in titles)
-            {
-                var libro = _bookRepository.GetByTittle(title);
-                if (libro == null)
-                {
-                    throw new Exception($"Libro no encontrado.");
-                }
+        //public List<BookDto> GetBooksByTitle(List<string> titles)
+        //{
+        //    var list = new List<BookDto>();
+        //    foreach (var title in titles)
+        //    {
+        //        var libro = _bookRepository.GetByTittle(title);
+        //        if (libro == null)
+        //        {
+        //            throw new Exception($"Libro no encontrado.");
+        //        }
 
-                list.Add(BookDto.ToDto(libro));
+        //        list.Add(BookDto.ToDto(libro));
 
-            }
-            return list;
-        }
+        //    }
+        //    return list;
+        //}
     }
 }
