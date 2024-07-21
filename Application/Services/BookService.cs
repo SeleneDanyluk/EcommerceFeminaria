@@ -23,9 +23,9 @@ namespace Application.Services
         }
 
         //Obtener todos los libros
-        public List<Book> GetAllBooks()
+        public List<Book> GetAllBooks(string? titulo = null, string? autor = null)
         {
-            return _bookRepository.Get();
+            return _bookRepository.GetAllBooks(titulo, autor);
         }
 
         //Agregar un nuevo libro, quien puede?
@@ -102,9 +102,15 @@ namespace Application.Services
         //        }
 
         //        list.Add(BookDto.ToDto(libro));
-
         //    }
         //    return list;
         //}
+
+        public BookDto RemoveBookStock(int bookId)
+        {
+            Book book = _bookRepository.Get(bookId);
+
+            return (BookDto.ToDto(_bookRepository.RemoveBookStock(book)));
+        }
     }
 }

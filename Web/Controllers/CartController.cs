@@ -4,6 +4,7 @@ using Application.Models.Requests;
 using Application.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Web.Controllers
 {
@@ -21,36 +22,94 @@ namespace Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_cartService.GetCarts());
+            var userTypeString = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+            if (userTypeString == "superAdmin")
+            {
+                return Ok(_cartService.GetCarts());
+            }
+            else
+            {
+                return Forbid();
+            }
         }
 
-        [HttpGet("/{userId}/my-cart")]
-        public IActionResult GetCartByUserId([FromRoute]int userId) 
+        [HttpGet("/my-cart")]
+        public IActionResult GetCartByUserId() 
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "User ID claim not found." });
+            }
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return BadRequest(new { message = "Invalid user ID format." });
+            }
             return Ok(_cartService.GetCartByUserId(userId));
         }
 
-        [HttpGet("/{userId}/myPurchases")]
-        public IActionResult GetClientPurchases([FromRoute]int userId)
+        [HttpGet("/myPurchases")]
+        public IActionResult GetClientPurchases()
         {
-            return Ok(_cartService.GetClientPurchases(userId));
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "User ID claim not found." });
+            }
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return BadRequest(new { message = "Invalid user ID format." });
+            }
+            else
+            {
+                return Ok(_cartService.GetClientPurchases(userId));
+            }
         }
 
-        [HttpPost("/{userId}/addItem")]
-        public IActionResult AddBookToCart([FromRoute]int userId, [FromQuery] int bookId)
+        [HttpPost("/addItem")]
+        public IActionResult AddBookToCart([FromQuery] int bookId)
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "User ID claim not found." });
+            }
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return BadRequest(new { message = "Invalid user ID format." });
+            }
             return Ok(_cartService.AddBookToCart(userId,bookId));
         }
 
-        [HttpDelete("/{userId}/removeItem")]
-        public IActionResult RemoveBookFromCart([FromRoute] int userId, [FromQuery] int bookId)
+        [HttpDelete("/removeItem")]
+        public IActionResult RemoveBookFromCart([FromQuery] int bookId)
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "User ID claim not found." });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return BadRequest(new { message = "Invalid user ID format." });
+            }
             return Ok(_cartService.RemoveBookFromCart(userId, bookId));
         }
 
-        [HttpPut("/{userId}/purchase")]
-        public IActionResult CreatePurchase([FromRoute]int userId)
+        [HttpPut("/purchase")]
+        public IActionResult CreatePurchase()
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized(new { message = "User ID claim not found." });
+            }
+
+            if (!int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return BadRequest(new { message = "Invalid user ID format." });
+            }
             return Ok(_cartService.ChangeCartState(userId));
         }
     }

@@ -49,6 +49,7 @@ namespace Infrastructure.Data
             if (cart != null)
             {
                 cart.Total += book.Price;
+                book.Stock = book.Stock - 1;
             }
             _context.SaveChangesAsync();
 
@@ -63,6 +64,7 @@ namespace Infrastructure.Data
             if (cart != null)
             {
                 cart.Total -= book.Price;
+                book.Stock = book.Stock + 1;
             }
             _context.SaveChangesAsync();
 
@@ -75,6 +77,7 @@ namespace Infrastructure.Data
             var carts = _context.Carts
                 .Where(u => u.UserId == user.Id && u.SaleState == Domain.Enum.SaleState.confirmed)
                 .Include(b => b.Books)
+                .OrderByDescending(c => c.Id)
                 .ToList();
             return carts;
         }

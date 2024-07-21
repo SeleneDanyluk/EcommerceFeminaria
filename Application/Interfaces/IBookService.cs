@@ -11,13 +11,15 @@ namespace Application.Interfaces
 {
     public interface IBookService
     {
-        List<Book> GetAllBooks();
+        List<Book> GetAllBooks(string? titulo = null, string? autor = null);
 
         BookDto AddNewBook(BookCreateRequest bookDto);
 
         public BookDto GetBookById(int id);
 
         public BookDto GetBookByTittle(string tittle);
+
+        public BookDto RemoveBookStock(int bookId);
 
         public BookDto UpdateBook(string title, float price);
 
