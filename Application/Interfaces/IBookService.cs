@@ -23,6 +23,6 @@ namespace Application.Interfaces
 
         public void DeleteBook(int id);
 
-        public List<BookDto> GetBooksByTitle(List<string> titles);
+        //public List<BookDto> GetBooksByTitle(List<string> titles);
     }
 }
