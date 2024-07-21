@@ -44,7 +44,6 @@ namespace Infrastructure.Data
 
         public Cart AddBookToUserCart(User user, Book book)
         {
-
             var cart = _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id && u.SaleState == Domain.Enum.SaleState.draft);
             cart.Books.Add(book);
             if (cart != null)
@@ -55,7 +54,6 @@ namespace Infrastructure.Data
             _context.SaveChangesAsync();
 
             return _context.Carts.Include(b => b.Books).FirstOrDefault(u => u.UserId == user.Id && u.SaleState == Domain.Enum.SaleState.draft);
-
         }
 
         public Cart RemoveBookFromUserCart(User user, Book book)
