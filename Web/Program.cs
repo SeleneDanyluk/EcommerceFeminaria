@@ -12,6 +12,7 @@ using static Infrastructure.Services.AuthenticationService;
 using System.Text;
 using System.Text.Json.Serialization;
 using Infrastructure.Services;
+using Web.Middlewares;
 
 var myCors = "MyCors";
 
@@ -112,6 +113,8 @@ app.UseHttpsRedirection();
 app.UseCors(myCors);
 
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 

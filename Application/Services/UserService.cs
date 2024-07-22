@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Exceptions;
-using static Domain.Exceptions.NotAllowedExceptions;
 
 
 namespace Application.Services

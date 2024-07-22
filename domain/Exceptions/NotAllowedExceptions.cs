@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace Domain.Exceptions
 {
-    public class NotAllowedExceptions
-    {
         public class NotAllowedException : Exception
         {
             public NotAllowedException()
@@ -29,5 +27,5 @@ namespace Domain.Exceptions
 
         }
 
-    }
+    
 }

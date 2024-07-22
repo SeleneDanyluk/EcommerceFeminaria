@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Linq;
 using Domain.Entities;
+using Domain.Exceptions;
 
 namespace Web.Controllers
 {
@@ -32,18 +33,11 @@ namespace Web.Controllers
 
             if (books == null || !books.Any())
             {
-                return NotFound(new { message = "No se encontraron libros con los criterios especificados." });
+                throw new NotFoundException("No se encontraron libros con los criterios especificados.");
             }
 
             return Ok(books);
         }
-
-        //[HttpPost("/librosDelCarrito")]
-
-        //public IActionResult GetBooksByTitle([FromBody] List<string> books) 
-        //{
-        //    return Ok(_bookService.GetBooksByTitle(books));
-        //}
 
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute]int id)
@@ -56,6 +50,8 @@ namespace Web.Controllers
         {
             return Ok(_bookService.GetBookByTittle(tittle));
         }
+
+        [Authorize]
 
         [HttpPost]
         public IActionResult AddBook([FromBody] BookCreateRequest book)
