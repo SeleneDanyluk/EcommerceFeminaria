@@ -72,7 +72,7 @@ namespace Application.Services
         }
 
         //Modificar un libro
-        public BookDto UpdateBook(string title, float price) //aca buscabamos x titulo x el tp del front, lo hacemos x id?
+        public BookDto UpdateBook(string title, float price) 
         {
             var bookToUpdate = _bookRepository.GetByTittle(title);  
 
@@ -86,7 +86,7 @@ namespace Application.Services
                 bookToUpdate.Price = price;
             }
 
-           return BookDto.ToDto(_bookRepository.Update(bookToUpdate)); //devolvemos la entidad actualizada o la hacemos void? como en user
+           return BookDto.ToDto(_bookRepository.Update(bookToUpdate));
         }
 
         //public List<BookDto> GetBooksByTitle(List<string> titles)
