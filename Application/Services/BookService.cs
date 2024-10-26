@@ -27,7 +27,7 @@ namespace Application.Services
             return _bookRepository.GetAllBooks(titulo, autor);
         }
 
-        //Agregar un nuevo libro, quien puede?
+        //Agregar un nuevo libro
         public BookDto AddNewBook(BookCreateRequest bookDto)
         {
             var existingBook = _bookRepository.GetByTittle(bookDto.Title);
@@ -68,7 +68,12 @@ namespace Application.Services
         //Obtener un libro por título
         public BookDto GetBookByTittle(string tittle) 
         {
-            return BookDto.ToDto(_bookRepository.GetByTittle(tittle));
+            var book = _bookRepository.GetByTittle(tittle);
+            if (book == null)
+            {
+                throw new NotFoundException(nameof(Book), tittle);
+            }
+            return BookDto.ToDto(book);
         }
 
         //Modificar un libro
