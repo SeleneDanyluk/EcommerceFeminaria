@@ -94,25 +94,13 @@ namespace Application.Services
            return BookDto.ToDto(_bookRepository.Update(bookToUpdate));
         }
 
-        //public List<BookDto> GetBooksByTitle(List<string> titles)
-        //{
-        //    var list = new List<BookDto>();
-        //    foreach (var title in titles)
-        //    {
-        //        var libro = _bookRepository.GetByTittle(title);
-        //        if (libro == null)
-        //        {
-        //            throw new Exception($"Libro no encontrado.");
-        //        }
-
-        //        list.Add(BookDto.ToDto(libro));
-        //    }
-        //    return list;
-        //}
-
         public BookDto RemoveBookStock(int bookId)
         {
-            Book book = _bookRepository.Get(bookId);
+            var book = _bookRepository.Get(bookId);
+            if (book == null)
+            {
+                throw new NotFoundException(nameof(Book), bookId);
+            }
 
             return (BookDto.ToDto(_bookRepository.RemoveBookStock(book)));
         }
